@@ -42,15 +42,48 @@ class Meetup:
             self.logger.warning(msg)
             return {}
 
+    def get_events(self, urlname, page=1000, scroll='future_or_past',
+                   no_later_than=None, no_earlier_than=None):
+        """ Pulls a list of event for the url name
+
+        Parameters
+        ----------
+        urlname: str
+            the url name for the Meetup group (i.e. TechTalkDC)
+        page: int
+            the number of results per page
+        scroll: str
+            determines whether or not to include past events
+        not_later_than: str
+            a date formatted like 'YYYY-MM-DD'
+        no_earlier_than: str
+            a date formatted like 'YYYY-MM-DD'
+
+        Returns
+        -------
+        dict, a dictionary of API results
+        """
+        params = {}
+        params['page'] = page
+        params['scroll'] = scroll
+        if no_later_than:
+            params['no_later_than'] = no_later_than
+        if no_earlier_than:
+            params['no_earlier_than'] = no_earlier_than
+        extension = '/{}/events'.format(urlname)
+        return self.get(extension, params)
+
     def get_event_rsvps(self, urlname, event_id, response='yes,no'):
         """ Pulls a list of members who have RSVP'd for an event.
         
         Parameters
         ----------
-        urlname: string
+        urlname: str
             the url name for the Meetup group (i.e. TechTalkDC)
         event_id: int
             the id for the event
+        response: str
+            one of ["yes,no", "yes", "no"]
 
         Returns
         -------
@@ -59,4 +92,4 @@ class Meetup:
         params = {}
         params['response'] = response
         extension = '/{}/events/{}/rsvps'.format(urlname, event_id, params)
-        return self.get(extension)
+        return self.get(extension, params)
