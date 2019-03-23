@@ -93,6 +93,46 @@ class Meetup:
         extension = '/{}'.format(urlname)
         return self.get(extension, params)
 
+    def find_groups(self, page=20, zip_code=None, radius=None,
+                    category=[], order=None):
+        """ Searches for groups near a location.
+
+        Parameters
+        ----------
+        page: int
+            the number of results to return
+        zip_code: int
+            the zip code of the location to search in
+        radius: float
+            how far away from the zip code centroid to search.
+            minimum is 0.0 and maximum is 100.0
+        category: list[int]
+            a list of categories ids to serach across
+            if a single int is passed, it will be converted to a list
+        order: str
+            one of ['distance', 'members', 'most_active', 'newest']
+        
+        Returns
+        -------
+        dict, a dictionary of API results
+        """
+        params = {}
+        if page:
+            params['page'] = page
+        if zip_code:
+            params['zip'] = zip_code
+        if radius:
+            params['radius'] = radius
+        if category:
+            if not isinstance(category, list):
+                category = [category]
+            category = [str(x) for x in category]
+            params['category'] = ', '.join(category)
+        if order:
+            params['order'] = order
+        extension = '/find/groups'
+        return self.get(extension, params)
+
     def get_event_rsvps(self, urlname, event_id, response='yes,no'):
         """ Pulls a list of members who have RSVP'd for an event.
         

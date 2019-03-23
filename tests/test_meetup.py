@@ -14,17 +14,25 @@ def test_get_events(monkeypatch):
     fake_response = FakeResponse(200)
     monkeypatch.setattr('requests.get', lambda x: fake_response)
     meetup = Meetup(key='fake_key')
-    results = meetup.get_events('fake_group', page=1000, 
+    results = meetup.get_events('fake_group', page=200, 
                                scroll='future_or_past',
                                no_earlier_than='2010-05-02',
                                no_later_than='2019-04-01')
+    assert isinstance(results, dict)
+
+def test_find_groups(monkeypatch):
+    fake_response = FakeResponse(200)
+    monkeypatch.setattr('requests.get', lambda x: fake_response)
+    meetup = Meetup(key='fake_key')
+    results = meetup.find_groups(page=200, zip_code=90210, radius=20,
+                                 category=32, order='distance')
     assert isinstance(results, dict)
 
 def test_get_categories(monkeypatch):
     fake_response = FakeResponse(200)
     monkeypatch.setattr('requests.get', lambda x: fake_response)
     meetup = Meetup(key='fake_key')
-    results = meetup.get_categories(page=1000)
+    results = meetup.get_categories(page=200)
     assert isinstance(results, dict)
 
 def test_get_group(monkeypatch):
