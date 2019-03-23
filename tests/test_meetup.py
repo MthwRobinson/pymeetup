@@ -25,7 +25,8 @@ def test_find_groups(monkeypatch):
     monkeypatch.setattr('requests.get', lambda x: fake_response)
     meetup = Meetup(key='fake_key')
     results = meetup.find_groups(page=200, zip_code=90210, radius=20,
-                                 category=32, order='distance')
+                                 category=32, order='distance',
+                                 fields=['past_event_count'])
     assert isinstance(results, dict)
 
 def test_get_categories(monkeypatch):

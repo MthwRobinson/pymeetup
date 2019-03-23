@@ -94,7 +94,7 @@ class Meetup:
         return self.get(extension, params)
 
     def find_groups(self, page=20, zip_code=None, radius=None,
-                    category=[], order=None):
+                    category=[], fields=[], order=None):
         """ Searches for groups near a location.
 
         Parameters
@@ -109,6 +109,8 @@ class Meetup:
         category: list[int]
             a list of categories ids to serach across
             if a single int is passed, it will be converted to a list
+        fields: list
+            additional fields to pull from the data
         order: str
             one of ['distance', 'members', 'most_active', 'newest']
         
@@ -128,6 +130,8 @@ class Meetup:
                 category = [category]
             category = [str(x) for x in category]
             params['category'] = ', '.join(category)
+        if fields:
+            params['fields'] = ', '.join(fields)
         if order:
             params['order'] = order
         extension = '/find/groups'
