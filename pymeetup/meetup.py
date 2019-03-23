@@ -113,3 +113,19 @@ class Meetup:
         params['response'] = response
         extension = '/{}/events/{}/rsvps'.format(urlname, event_id, params)
         return self.get(extension, params)
+
+    def get_categories(self, page=50):
+        """ Pulls a list of Meetup categories and their numerical IDs.
+
+        Parameters
+        ----------
+        page: int
+            the number of results to pull
+
+        Returns
+        -------
+        dict, a dictionary of API results
+        """
+        params = {'page': page}
+        extension = '/2/categories'
+        return self.get(extension, params)

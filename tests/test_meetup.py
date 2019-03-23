@@ -14,25 +14,32 @@ def test_get_events(monkeypatch):
     fake_response = FakeResponse(200)
     monkeypatch.setattr('requests.get', lambda x: fake_response)
     meetup = Meetup(key='fake_key')
-    events = meetup.get_events('fake_group', page=1000, 
+    results = meetup.get_events('fake_group', page=1000, 
                                scroll='future_or_past',
                                no_earlier_than='2010-05-02',
                                no_later_than='2019-04-01')
-    assert isinstance(events, dict)
+    assert isinstance(results, dict)
+
+def test_get_categories(monkeypatch):
+    fake_response = FakeResponse(200)
+    monkeypatch.setattr('requests.get', lambda x: fake_response)
+    meetup = Meetup(key='fake_key')
+    results = meetup.get_categories(page=1000)
+    assert isinstance(results, dict)
 
 def test_get_group(monkeypatch):
     fake_response = FakeResponse(200)
     monkeypatch.setattr('requests.get', lambda x: fake_response)
     meetup = Meetup(key='fake_key')
-    events = meetup.get_group('fake_group', fields=['past_event_count'])
-    assert isinstance(events, dict)
+    results = meetup.get_group('fake_group', fields=['past_event_count'])
+    assert isinstance(results, dict)
 
 def test_get_event_rsvps(monkeypatch):
     fake_response = FakeResponse(200)
     monkeypatch.setattr('requests.get', lambda x: fake_response)
     meetup = Meetup(key='fake_key')
-    events = meetup.get_event_rsvps('fake_group', 8675309, response='yes')
-    assert isinstance(events, dict)
+    results = meetup.get_event_rsvps('fake_group', 8675309, response='yes')
+    assert isinstance(results, dict)
 
 def test_meepup_does_not_warn_if_good_status(monkeypatch):
     fake_response = FakeResponse(200)
