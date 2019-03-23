@@ -73,6 +73,26 @@ class Meetup:
         extension = '/{}/events'.format(urlname)
         return self.get(extension, params)
 
+    def get_group(self, urlname, fields=[]):
+        """ Pulls metadata about a Meetup groups
+
+        Parameters
+        ----------
+        urlname: str
+            the url name for the Meetup group
+        fields: list
+            additional fields to pull from the data
+
+        Returns
+        -------
+        dict, a dictionary of API results
+        """
+        params = {}
+        if fields:
+            params['fields'] = ', '.join(fields)
+        extension = '/{}'.format(urlname)
+        return self.get(extension, params)
+
     def get_event_rsvps(self, urlname, event_id, response='yes,no'):
         """ Pulls a list of members who have RSVP'd for an event.
         

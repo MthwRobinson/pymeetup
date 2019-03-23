@@ -20,6 +20,13 @@ def test_get_events(monkeypatch):
                                no_later_than='2019-04-01')
     assert isinstance(events, dict)
 
+def test_get_group(monkeypatch):
+    fake_response = FakeResponse(200)
+    monkeypatch.setattr('requests.get', lambda x: fake_response)
+    meetup = Meetup(key='fake_key')
+    events = meetup.get_group('fake_group', fields=['past_event_count'])
+    assert isinstance(events, dict)
+
 def test_get_event_rsvps(monkeypatch):
     fake_response = FakeResponse(200)
     monkeypatch.setattr('requests.get', lambda x: fake_response)
